@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: bollwerk/docker/Dockerfile
+    volumes:
+      - ./bollwerk/app:/var/www/html
+      - ./bollwerk/docker/config/app.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./bollwerk/docker/config/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - '6009:80'
+    hostname: bollwerk
+    container_name: bollwerk-service
+    restart: unless-stopped

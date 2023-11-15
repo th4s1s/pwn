@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="/style/global.css">
+    <link rel="stylesheet" href="/style/home.css">
+    <link rel="stylesheet" href="/style/nav.css">
+    <link rel="stylesheet" href="/style/bootstrap.min.css">
+<body>
+    <%- include('navbar') %>
+    <main>
+        <div class="row">
+            <div class="col-6">
+                <h1 class="greeting">Welcome back <%= userName%>!</h1>
+            </div>
+            <div class="col-6">
+                <img class="profile-pic" src="/assets/profile-pics/<%= userPic%>.jpg" alt="profile pic">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-11">
+                <ul class="chatroom-list">
+                    <% rooms.forEach((room) => { %>
+                        <a href="/chatroom/<%=room.id%>" class="chatroom-join">
+                            <li class="chatroom">
+                                <%= room.name %> - <%= room.users.length %> users
+                            </li>
+                        </a>
+                    <% }); %>
+                </ul>
+            </div>
+            <div class="col-1">
+                <button type="button" class="chatroom-add" data-bs-toggle="modal" data-bs-target="#addChatroomModal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                    </svg></button>
+            </div>
+            <div class="modal fade" id="addChatroomModal" tabindex="-1" role="dialog" aria-labelledby="addChatroomModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addChatroomModalTitle">New Chatroom</h5>
+                        </div>
+                        <div class="modal-body">
+                            <label for="chatroomName">Name</label>
+                            <input type="text" name="chatroomName" id="chatroomName">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioPrivate">
+                                <label class="form-check-label" for="flexRadioPrivate">
+                                    Private
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioPublic" checked>
+                                <label class="form-check-label" for="flexRadioPublic">
+                                    Public
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="startNewRoom()">Join</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <script src="/script/jquery-3.7.0.min.js"> </script>
+    <script src="/script/bootstrap.bundle.min.js"> </script>
+    <script>
+            function startNewRoom() {
+                let roomName = document.getElementById("chatroomName").value;
+                let publicRadio = document.getElementById("flexRadioPublic");
+                if (roomName.length > 0) {
+                    fetch("/chatroom", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            roomname: roomName,
+                            public: publicRadio.checked.toString()
+                        })
+                    }).then (async res => {
+                        let text = await res.text();
+                        console.log(res.status, text);
+                        if(res.statusText === 'OK'){
+                            window.location.href = "/chatroom/" + (text);
+                        }
+                        else{
+                            alert(text);
+                        }
+                    });
+                }
+            }
+    </script>
+</body>
+</html>

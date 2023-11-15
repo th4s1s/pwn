@@ -1,0 +1,106 @@
+{% extends 'templates/base.twig' %}
+
+{% block content %}
+	<div class="courses-container">
+		<h1>Courses</h1>
+		{% if message %}
+			<p>{{ message|raw }}</p>
+		{% endif %}
+
+		{% if user and not course_id %}
+			<h2>Add Course</h2>
+			<form method="post" action="index.php?action=courses" enctype="multipart/form-data" class="courses-form">
+				<div class="input-field">
+					<label for="title">Course Title:</label>
+					<input type="text" name="title" id="title" required>
+				</div>
+				<div class="input-field">
+					<label for="course_data">Course Data:</label>
+					<input type="file" name="course_data" id="course_data" accept=".xml" required>
+				</div>
+				<div class="input-field">
+					<label for="is_private">Private:</label>
+					<input type="checkbox" name="is_private" id="is_private">
+				</div>
+				<div class="input-field">
+					<input type="submit" class="submit-button" value="Add Course">
+				</div>
+			</form>
+		{% endif %}
+
+		{% if course_id %}
+			<h2>Selected Course</h2>
+		{% else %}
+			<h2>Existing Courses</h2>
+		{% endif %}
+		<ul class="course-list">
+			{% for course in courses %}
+				<li>
+					<div class="course-item">
+						<h3>
+							<a href="index.php?action=courses&id={{ course.id }}">{{ course.title }}</a>
+							(ID:
+							{{ course.id }})
+						</h3>
+
+						{% if user.admin_of == course.id or course.user_enrolled %}
+							<div class="course-data">{{ course.course_data|raw }}</div>
+						{% endif %}
+
+						{% if user.admin_of == course.id %}
+							<span class="label label-admin">Admin</span>
+						{% elseif course.user_enrolled %}
+							<span class="label label-joined">Joined</span>
+						{% else %}
+							<form method="post" action="index.php?action=courses" class="join-course-form">
+								<input type="hidden" name="course_id" value="{{ course.id }}">
+								<input type="submit" class="submit-button" value="Join Course">
+							</form>
+						{% endif %}
+
+						{% if course.enrolled_users %}
+							<h4>Enrolled Users:</h4>
+							<ul class="enrolled-users-list">
+								{% for enrolled_user in course.enrolled_users %}
+									<li>
+										<a class="enrolled-user-link" href="index.php?action=profile&id={{ enrolled_user.id }}">
+											{{ enrolled_user.username }}
+										</a>
+									</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					</div>
+				</li>
+			{% endfor %}
+		</ul>
+
+		{% if not course_id %}
+			<div class="pagination-container">
+				{% set visible_pages_limit = 5 %}
+				{% set prev_page = page - 1 %}
+				{% set next_page = page + 1 %}
+
+				{% if prev_page >= 1 %}
+					<a class="page-number" href="?action=courses&page={{ prev_page }}"><</a>
+				{% endif %}
+
+				{% for i in 1..total_pages %}
+					{% if i >= page - visible_pages_limit//2 and i <= page + visible_pages_limit//2 and not i == 0%}
+						{% if i == page %}
+							<span class="page-number active-page">{{ i }}</span>
+						{% else %}
+							<a class="page-number" href="?action=courses&page={{ i }}">{{ i }}</a>
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+
+				{% if next_page <= total_pages %}
+					<a class="page-number" href="?action=courses&page={{ next_page }}">></a>
+				{% endif %}
+			</div>
+		{% endif %}
+
+
+	</div>
+{% endblock %}

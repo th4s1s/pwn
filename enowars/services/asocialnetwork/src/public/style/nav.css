@@ -1,0 +1,46 @@
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #39FF14;
+    /*color: #fff;*/
+    padding: 0.5rem;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    padding-left: 16px;
+}
+
+.nav-icon {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+nav a {
+    /*color: #fff;*/
+    text-decoration: none;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    list-style: none;
+    margin: 0 0.5rem;
+}
+
+nav .nav-link {
+    display: block;
+    padding: 0.5rem;
+    color: #FF00FF;
+}
+
+nav ul li a:hover {
+    background-color: coral;
+}
+#logo{
+    color: dodgerblue;
+}

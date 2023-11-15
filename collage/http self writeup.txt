@@ -1,0 +1,179 @@
+thực hiện cat /challenge/.config đầu tiên để tìm đc lệnh cần dùng
+luôn chạy chương trình bằng lệnh /challenge/babyhttp & để khởi động server
+
+level1: dùng lệnh curl
+$ curl -v /url/
+
+level2: dùng lệnh netcat
+$ nc -v 127.0.0.1 80
+GET / HTTP/1.1
+
+level3: viết script py
+import requests
+response = requests.get("/url/")
+print(response.text)
+
+level4: dùng lệnh curl + tìm host
+$ curl -v -X GET -H 'Host: /port/' /url/
+
+level5: dùng lệnh netcat + tìm host
+$ nc -v 127.0.0.1 80
+GET / HTTP/1.1
+Host: /port/
+
+level6: viết script py + tìm host
+import requests
+response = requests.get("/url/", headers={'Host':'/port/'})
+print(response.text)
+
+level7: dùng lệnh curl + thêm path (đường dẫn)
+$ curl -v /url/path
+
+level8: dùng lệnh netcat + thêm path
+$ nc -v 127.0.0.1 80
+GET /path HTTP/1.1
+
+level9: viết script py + thêm path
+import requests
+response = requests.get("/url/path")
+print(response.text)
+
+level10: dùng lệnh curl + thêm path (đường dẫn) nhưng có space => thay space = %20
+$ curl -v /url/path
+
+level11: dùng lệnh netcat + thêm path nhưng có space => thay space = %20
+$ nc -v 127.0.0.1 80
+GET /path HTTP/1.1
+
+level12: viết script py + thêm path nhưng có space => thay space = %20
+import requests
+response = requests.get("/url/path")
+print(response.text)
+
+level13: dùng lệnh curl + thêm arg
+$ curl -v /url/?VAR=VALUE
+
+level14: dùng lệnh netcat + thêm arg
+$ nc -v 127.0.0.1 80
+GET /?VAR=VALUE HTTP/1.1
+
+level15: viết script py + thêm arg
+import requests
+response = requests.get("/url/", params={'VAR':'VALUE'})
+print(response.text)
+
+level16: dùng lệnh curl + thêm nhiều arg (encode đối với biến có ký tự đặc biệt)
+$ curl -X GET -G /url/ -d "VAR1=VALUE1" --data-urlencode "VAR2=VALUE2"
+---option2--- dùng encode của ký tự đặc biệt (https://www.w3schools.com/tags/ref_urlencode.ASP)
+$ curl -v /url/?VAR1=VALUE1&VAR2=VALUE2
+
+level17: dùng lệnh netcat + thêm nhiều arg (encode đối với biến có ký tự đặc biệt)
+$ nc -v 127.0.0.1 80
+GET /?VAR1=VALUE1&VAR2=VALUE2 HTTP/1.1
+
+level18: viết script py + thêm nhiều arg (không cần encode với ký tự đặc biệt)
+import requests
+response = requests.get("/url/", params={'VAR1':'VALUE1', 'VAR2':'VALUE2'})
+print(response.text)
+
+level19: dùng lệnh curl + thêm form
+$curl -v -F "VAR=VALUE" /url/
+
+level20: dùng lệnh netcat + thêm form
+GET / HTTP/1.1
+Content-Type: multipart/form-data; boundary=------------------------5438f201a4f68776
+Content-Length: (copy mấy dòng dưới mang ra đếm)
+
+--------------------------5438f201a4f68776
+Content-Disposition: form-data; name="VAR"
+
+VALUE
+--------------------------5438f201a4f68776--
+
+level21: viết script py + thêm form
+import requests
+response = requests.get("/url/", data={'VAR':'VALUE'})
+print(response.text)
+
+level22: dùng lệnh curl + thêm nhiều form (không cần encode)
+$curl -v /url/ -F "VAR1=VALUE1" -F "VAR2=VALUE2"
+
+level23: dùng lệnh netcat + thêm nhiều form (không cần encode)
+GET / HTTP/1.1
+Content-Type: multipart/form-data; boundary=------------------------5438f201a4f68776
+Content-Length: (copy mấy dòng dưới mang ra đếm)
+
+--------------------------5438f201a4f68776
+Content-Disposition: form-data; name="VAR1"
+
+VALUE1
+--------------------------5438f201a4f68776
+Content-Disposition: form-data; name="VAR2"
+
+VALUE2
+--------------------------5438f201a4f68776--
+
+level24: viết script py + thêm nhiều form (không cần encode)
+import requests
+response = requests.get("/url/", data={'VAR1':'VALUE1', 'VAR2':'VALUE2'})
+print(response.text)
+
+level25: dùng lệnh curl + chạy header json
+$ curl -v -X GET /url/ -H "Content-Type: application/json" -d '{"VAR":"VALUE"}'
+
+level26: dùng lệnh netcat + chạy header json
+GET / HTTP/1.1
+Content-Type: application/json
+Content-Length: (copy mấy dòng dưới mang ra đếm)
+
+{"VAR":"VALUE"}
+
+level27: viết script py + chạy header json
+import requests
+r = requests.get("/url/", headers={"Content-Type":"application/json"}, json={"VAR":"VALUE"})
+print(r.text)
+
+level28: dùng lệnh curl + chạy header json nhiều var (không cần encode)
+tạo file txt riêng: {"VAR1":"VALUE1", "VAR2":{"c": "24cd2e0c", "d": ["2ab936e1", "9eec6b57 4364ad59&b4d00974#62666142"]}}
+(NHỚ CHUYỂN HẾT ' VỀ ")
+$ curl -v -X GET http://127.0.0.1:80 -H "Content-Type: application/json" -d @/tmp/t.txt
+--option2
+$ curl -v -X GET http://127.0.0.1:80 -H "Content-Type: application/json" -d '{"VAR1":"VALUE1", "VAR2":{"c": "24cd2e0c", "d": ["2ab936e1", "9eec6b57 4364ad59&b4d00974#62666142"]}}'
+(NHỚ CHUYỂN HẾT ' VỀ ")
+
+level29: dùng lệnh netcat + chạy header json nhiều var (không cần encode)
+GET / HTTP/1.1
+Content-Type: application/json
+Content-Length: (copy mấy dòng dưới mang ra đếm)
+
+{"VAR1":"VALUE1", "VAR2":{"c": "1e10ffa1", "d": ["69566cb5", "3e45d44c d9142fb1&b3ecbc06#692190cc"]}}
+(NHỚ CHUYỂN HẾT ' VỀ ")
+
+level30: viết script py + chạy header json nhiều var (không cần encode)
+import requests
+r = requests.get("/url/", headers={"Content-Type":"application/json"}, json={"VAR1":"VALUE1", "VAR2":{"c": "1e10ffa1", "d": ["69566cb5", "3e45d44c d9142fb1&b3ecbc06#692190cc"]}})
+print(r.text)
+
+level31: dùng lệnh curl + redirect
+$curl -v /url/ -L
+
+level32: dùng lệnh netcat + redirect
+chạy bth trước rồi lấy path ở header Location: /path
+GET /path HTTP/1.1
+
+level33: viết script py + redirect
+import requests
+r = requests.get("/url/", allow_redirects=True)
+print(r.text)
+
+level34: dùng lệnh curl + cookie
+$ curl -v /url/ -b 'cookie=VALUE'
+
+level35: dùng lệnh netcat + cookie
+GET / HTTP/1.1
+Cookie: cookie=VALUE
+
+level36: viết script py + cookie
+import requests
+r = requests.get("/url/", cookies={"cookie":"VALUE")
+print(r.text)

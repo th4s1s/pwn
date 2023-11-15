@@ -1,0 +1,33 @@
+CREATE TABLE IF NOT EXISTS user (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	username STRING NOT NULL UNIQUE,
+	password STRING NOT NULL,
+	created_at INTEGER DEFAULT NULL
+);
+
+CREATE TABLE IF NOT EXISTS recipe (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+	user_id INTEGER NOT NULL,
+	title STRING NOT NULL,
+	description STRING NOT NULL,
+    filename DEFAULT NULL,
+	FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS complaint (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    description STRING NOT NULL,
+    token STRING NOT NULL,
+    submitted_at INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+);
+
+CREATE TRIGGER IF NOT EXISTS user_timestamp
+AFTER INSERT ON user
+BEGIN
+    UPDATE user SET created_at = strftime("%s", "now") WHERE created_at IS NULL;
+END;
+
+INSERT OR IGNORE INTO user (id, username, password)
+	VALUES (1, "test", "test");

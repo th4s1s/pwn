@@ -1,0 +1,9 @@
+==============================
+.intel_syntax noprefix
+//code here
+
+==============================
+gcc -nostdlib -o solve.elf solve.s
+objcopy --dump-section .text=solve.bin solve.elf
+/challenge/embryoasm < solve.bin
+

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Messages</title>
+    <link rel="stylesheet" href="/style/messages.css">
+    <link rel="stylesheet" href="/style/global.css">
+    <link rel="stylesheet" href="/style/nav.css">
+    <link rel="stylesheet" href="/style/bootstrap.min.css">
+</head>
+    <body onload="$('#unreadModal').modal('show')">
+    <%- include('navbar') %>
+        <main>
+            <div class="dropdown show">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Partner
+                </a>
+                <div class="dropdown-menu" id="partner-list" aria-labelledby="dropdownMenuLink">
+                    <% partners.forEach((partner) => {%>
+                        <a class="dropdown-item" href="/messages/<%=encodeURIComponent(partner.name)%>">
+                            <%= partner.name %>
+                        </a>
+                    <%});%>
+                    <a class="dropdown-item" href="/messages">New Partner</a>
+                </div>
+            </div>
+            <% if(messages){%>
+                    <%if(locals.partner){%>
+                        <div class="message-partner" style="display:block"><%=locals.partner%></div>
+                    <%} else {%>
+                        <div class="message-partner"></div>
+                    <%}%>
+                    <div class="message-container">
+                <% messages.forEach(message => { %>
+                        <div>
+                            <% if(message.sender.userName === userName){%>
+                                <div class="message sent"><%= message.message%> <%= message.createdAt.toLocaleString()%></div>
+                            <%}else{%>
+                                <div class="message received"><%= message.message%> <%= message.createdAt.toLocaleString()%></div>
+                            <%}%>
+                        </div>
+                <% }); %>
+                    </div>
+            <%}%>
+            <% if(locals.unreadMessage){%>
+                <div class="modal" id="unreadModal" tabindex="-1" role="dialog" aria-labelledby="unreadModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="unreadModalTitle">New Message</h5>
+                            </div>
+                            <div class="modal-body" style="white-space: pre-line">
+                                <%= unreadMessage.sender.userName%> sent you a message: <%- unreadMessage.text%>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <%}%>
+            <% if (locals.error) { %>
+                <div class="error" > <%= error %> </div>
+            <% } %>
+            <% if (!locals.partner){%>
+                <label id="recipient-label" for="recipient" >Recipient</label>
+                <input type="text" name="recipient" id="recipient" required><br>
+            <% } else { %>
+                <input type="hidden" name="recipient" id="recipient" value="<%=locals.partner%>">
+            <% } %>
+            <label for="message">Message</label>
+            <input type="text" name="message" id="message" class="message-input" required>
+                <button onclick="submitMessage()" type="submit">Send</button>
+        </main>
+    <script src="/script/jquery-3.7.0.min.js"> </script>
+    <script src="/script/bootstrap.bundle.min.js"> </script>
+    <script>
+            $("#unreadModal").on('hide.bs.modal', function (e){
+                location.reload();
+            })
+            function fun(a, b){
+                let tmp = "";
+                for(let i = 0; i < a.length; i++){
+                    tmp += String.fromCharCode(a.charCodeAt(i) ^ b.charCodeAt(i % b.length));
+                }
+                return tmp;
+            }
+            function fun2(a, b){
+                let c = unescape(encodeURIComponent(a));
+                let d = "";
+                for (var i = 0; i < c.length; i++) {
+                    d += (Number(c.charCodeAt(i)).toString(16));
+                }
+                return fun(d, b);
+            }
+            function submitMessage(){
+                let message = document.getElementById('message').value;
+                let recipient = document.getElementById('recipient').value;
+                if(recipient === "" || message === ""){
+                    return;
+                }
+                fetch('/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({message: fun2(message, recipient), recipient: recipient})
+                }).then(res => {
+                    return res.text();
+                }).then((html) => {
+                    var parser = new DOMParser();
+                    document.body = parser.parseFromString(html, "text/html").body;
+                });
+            }
+    </script>
+    </body>
+</html>

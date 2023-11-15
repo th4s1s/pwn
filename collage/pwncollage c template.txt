@@ -1,0 +1,21 @@
+#include <stdio.h> 
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+void pwncollege(char* argv[],char *env[]) {
+    char *newargv[]={"VALUE",NULL};
+    char *newenv[]={"KEY=VALUE",NULL};
+    chdir("/path");
+    execve("/challenge/embryoio_level*",argv,env);
+    return;
+}
+
+int main(int argc,char* argv[],char* env[]) {
+    pid_t fpid = fork();
+    if(!fpid) {
+        pwncollege(argv, env);
+    }
+    else fpid = wait(NULL);
+    return 0;
+}

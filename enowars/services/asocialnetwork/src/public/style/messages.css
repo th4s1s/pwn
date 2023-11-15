@@ -1,0 +1,91 @@
+body {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+label {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+nav a {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+.btn-secondary {
+    background-color: #c79f00;
+    border-color: #c79f00;
+}
+
+#partner-list {
+    background-color: orange;
+}
+
+.dropdown-item {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+.dropdown-item:hover {
+    background-color: orange;
+}
+
+.message-partner {
+    padding: 5px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.message-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.message {
+    padding: 5px;
+    margin-bottom: 5px;
+    max-width: 70%;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    overflow-wrap: break-word;
+}
+
+.sent {
+    background-color: #FF69B4;
+    align-self: flex-end;
+}
+
+.received {
+    background-color: #008080 ;
+    align-self: flex-start;
+}
+
+.error {
+    color: darkorchid;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"] {
+    border: none;
+    padding: 5px;
+    margin-bottom: 10px;
+    display:block;
+    width: 70%;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+main{
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+button {
+    background-color: aqua;
+    border: none;
+    color: black;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #007bff;
+}

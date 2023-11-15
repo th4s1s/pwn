@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Oldschool</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<header class="header">
+			<nav>
+				<a class="nav-link" href="index.php?action=home">Home</a>
+				{% if not user %}
+					<a class="nav-link" href="index.php?action=login">Login</a>
+					<a class="nav-link" href="index.php?action=register">Register</a>
+				{% endif %}
+				{% if user %}
+					<a class="nav-link" href="index.php?action=profile&id={{ user.id }}">My Profile</a>
+					<a class="nav-link" href="index.php?action=courses">Courses</a>
+					<a class="nav-link" href="index.php?action=grades">Grades</a>
+				{% endif %}
+				<a class="nav-link" href="index.php?action=about">About Us</a>
+			</nav>
+		</header>
+		<main class="main"> {% block content %}{% endblock %}
+			</main>
+		</body>
+	</html>

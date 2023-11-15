@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="stylesheet" href="/style/global.css">
+    <link rel="stylesheet" href="/style/friends.css">
+    <link rel="stylesheet" href="/style/nav.css">
+    <link rel="stylesheet" href="/style/bootstrap.min.css">
+</head>
+<body>
+<%- include('navbar') %>
+<main>
+    <div class="row">
+        <div class="col-6">
+            <h1>Friends</h1>
+        </div>
+        <div class="col-6">
+            <button class="btn btn-info addFriendButton" id="addFriend" data-bs-toggle="modal" data-bs-target="#addFriendModal">Add Friend</button>
+        </div>
+    </div>
+    <div class="modal" id="addFriendModal" tabindex="-1" role="dialog" aria-labelledby="addFriendModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addFriendModalTitle">Add Friend</h5>
+                </div>
+                <div class="modal-body">
+                    <label for="username">Username</label>
+                    <input type="text" id="username">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary addModalButton" onclick="addFriend()">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <% for(let i = 0; i < friends.length; i++){ %>
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <img src="/assets/profile-pics/<%= friends[i].image %>.jpg" alt="avatar" class="avatar">
+                            <span class="nickname"><%= friends[i].userName %></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <a href="/profile/<%= encodeURIComponent(friends[i].userName) %>" class="link btn btn-info">Profile</a>
+                    <a href="/messages/<%= encodeURIComponent(friends[i].userName) %>" class="link btn btn-info">Message</a>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <%if(requests.length){%>
+        <div class="row">
+            <div class="col-12">
+                <h1>Requests</h1>
+            </div>
+            <div class="col-12">
+                <div class="row">
+                    <% for(let i = 0; i < requests.length; i++){ %>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <img src="/assets/profile-pics/<%=requests[i].image %>.jpg" alt="avatar" class="avatar">
+                                    <span class="nickname"><%= requests[i].userName %></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <%if(requests[i].status == 'received'){%>
+                                <button class="link btn btn-info" onclick="handleRequest('<%= requests[i].userName %>', '<%=userName%>', 'accept')">Accept</button>
+                                <button class="link btn btn-info" onclick="handleRequest('<%= requests[i].userName %>', '<%=userName%>', 'reject')">Reject</button>
+                            <%} else{%>
+                                <button class="link btn btn-info" onclick="handleRequest('<%= requests[i].userName %>', '<%=userName%>', 'cancel')">Cancel</button>
+                            <%}%>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    <%}%>
+</main>
+<script src="/script/jquery-3.7.0.min.js"> </script>
+<script src="/script/bootstrap.bundle.min.js"> </script>
+<script>
+    function addFriend() {
+        let partner = $('#username').val();
+        let user = '<%= userName %>';
+        handleRequest(partner, user, 'send');
+    }
+    function handleRequest(partner, username, status) {
+        $.ajax({
+            url: '/friends/requests/',
+            type: 'POST',
+            data:{
+                partner: partner,
+                userName: username,
+                status: status
+            },
+            success: function (data) {
+                if(data === 'ok'){
+                    window.location = '/friends/';
+                }else{
+                    alert(data);
+                }
+            },
+            error: function (err) {
+                alert(err.responseText);
+            }
+        })
+    }
+</script>
+</body>
+</html>

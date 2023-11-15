@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%=chatroom.name%></title>
+    <link rel="stylesheet" href="/style/global.css">
+    <link rel="stylesheet" href="/style/chatroom.css">
+    <link rel="stylesheet" href="/style/nav.css">
+    <link rel="stylesheet" href="/style/bootstrap.min.css">
+</head>
+<body onload="getNewMessages()">
+    <%- include('navbar') %>
+    <main>
+        <input type="hidden" id="lastMessageTime" value="<%=lastMessage%>">
+            <div class="row">
+                <div class="col-6">
+                    <h1><%=chatroom.name%></h1>
+                    <div class="chatroom">
+                        <div class="messages">
+                            <%for(let i = 0; i < chatroom.messages.length; i++){%>
+                                <div class="message">
+                                    <div class="author">
+                                        <%if(i === 0 || chatroom.messages[i].author.userName !== chatroom.messages[i-1].author.userName){%>
+                                            <img src="/assets/profile-pics/<%=chatroom.messages[i].author.image%>.jpg" alt="" class="profile-pic">
+                                            <span><%=chatroom.messages[i].author.userName%></span>:
+                                        <%} else{%>
+                                            <span style="display:none"><%=chatroom.messages[i].author.userName%></span>
+                                        <%}%>
+                                    </div>
+                                    <p><%=chatroom.messages[i].message%></p>
+                                </div>
+                            <%}%>
+                        </div>
+                        <input type="text" name="message" placeholder="Type your message here...">
+                        <button type="submit" onclick="submitMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+    </main>
+    <script src="/script/jquery-3.7.0.min.js"> </script>
+    <script src="/script/bootstrap.bundle.min.js"> </script>
+    <script>
+        function submitMessage(){
+            let message = $('input[name="message"]').val();
+            if(message === '')
+                return;
+            $.ajax({
+                url: window.location.href + '/messages',
+                type: 'POST',
+                data: {
+                    message: message
+                },
+                success: function(data) {
+                    // Clear the input
+                    $('input[name="message"]').val('');
+                },
+                error: function() {
+                    // Handle errors
+                    window.href = '/login';
+                }
+            });
+        }
+        function getNewMessages() {
+            $.ajax({
+                url: window.location.href + '/messages/' + $('#lastMessageTime').val(),
+                type: 'GET',
+                success: function(data) {
+                    // Display new messages to the user
+                    displayNewMessages(data);
+                },
+                error: function() {
+                    // Handle errors
+                    window.href = '/login';
+                },
+                complete: function() {
+                    // Call this function again after a short delay
+                    setTimeout(getNewMessages, 1000);
+                }
+            });
+        }
+        function displayNewMessages(messages) {
+            let latestMessageTime = 0;
+            // Loop through each message
+            messages.forEach(function(message) {
+                // Create a div for the message
+                var messageDiv = $('<div class="message">');
+                var span = $('<span>');
+                var author = $('<div class="author">');
+                span.text(message.user.userName);
+                // Add the author div as a child of the messageDiv if the author is different from the previous message
+                if($('.messages').children().last().find('.author').find('span').text() !== message.user.userName){
+                    author.append('<img src="' + message.user.avatar + '" alt="" class="profile-pic">');
+                    author.append(span);
+                    author.append(':');
+                    messageDiv.append(author);
+                } else{
+                    span.css('display', 'none');
+                    author.append(span);
+                    messageDiv.append(author);
+                }
+                // Add the message to the div
+                var messageText = $('<p>');
+                messageText.text(message.message);
+                messageDiv.append(messageText);
+                // Add the div to the messages
+                $('.messages').append(messageDiv);
+                if(new Date(message.date).valueOf() > latestMessageTime) {
+                    latestMessageTime = new Date(message.date).valueOf();
+                }
+            });
+            // Update the lastMessageTime
+            if(latestMessageTime > 0)
+                $('#lastMessageTime').val(latestMessageTime);
+        }
+    </script>
+</body>
+</html>

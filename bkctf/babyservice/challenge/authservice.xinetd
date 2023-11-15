@@ -1,0 +1,16 @@
+service authservice
+{
+    disable = no
+    type = UNLISTED
+    wait = no
+    server = /home/authservice/authservice
+    socket_type = stream
+    protocol = tcp
+    user = authservice
+    host = 127.0.0.1
+    port = 31337
+    flags = REUSE
+    per_source = 5
+    rlimit_cpu = 3
+    nice = 18
+}

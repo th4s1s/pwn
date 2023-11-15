@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Profile Picture</title>
+    <link rel="stylesheet" href="/style/global.css">
+    <link rel="stylesheet" href="/style/profilePicture.css">
+    <link rel="stylesheet" href="/style/nav.css">
+    <link rel="stylesheet" href="/style/bootstrap.min.css"></head>
+<body>
+<%- include('navbar') %>
+<h1>Select Profile Picture</h1>
+
+<div class="grid-container">
+    <% for(let i = 1; i <= 50; i++) { %>
+        <div class="grid-item">
+            <img src="/assets/profile-pics/<%= i %>.jpg" alt="Profile Pic <%= i %>" class="profile-pic">
+            <input type="radio" name="profile-pic" value="<%= i %>" id="profile-pic-<%= i %>" <%if(i == selected){%> checked <%}%>>
+            <label for="profile-pic-<%= i %>">Select</label>
+        </div>
+    <% } %>
+</div>
+<button type="submit" onclick="saveProfilePic()">Save</button>
+<script src="/script/jquery-3.7.0.min.js"> </script>
+<script src="/script/bootstrap.bundle.min.js"> </script>
+<script>
+    function saveProfilePic() {
+        let selected = document.querySelector('input[name="profile-pic"]:checked');
+        if(selected) {
+            let pic = selected.value;
+            fetch('/profile-picture?pic=' + pic, {
+                method: 'POST'
+            }).then(() => {
+                window.location.href = '/profile';
+            });
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+0x7ffff7db4d00 <__libc_init_first>:  endbr64
+   0x7ffff7db4d04 <__libc_init_first+4>:        ret
+   0x7ffff7db4d05:      cs nop WORD PTR [rax+rax*1+0x0]
+   0x7ffff7db4d0f:      nop
+   0x7ffff7db4d10 <__libc_start_call_main>:     push   rax
+   0x7ffff7db4d11 <__libc_start_call_main+1>:   pop    rax
+   0x7ffff7db4d12 <__libc_start_call_main+2>:   sub    rsp,0x98
+   0x7ffff7db4d19 <__libc_start_call_main+9>:   mov    QWORD PTR [rsp+0x8],rdi
+   0x7ffff7db4d1e <__libc_start_call_main+14>:  lea    rdi,[rsp+0x20]
+   0x7ffff7db4d23 <__libc_start_call_main+19>:  mov    DWORD PTR [rsp+0x14],esi
+   0x7ffff7db4d27 <__libc_start_call_main+23>:  mov    QWORD PTR [rsp+0x18],rdx
+   0x7ffff7db4d2c <__libc_start_call_main+28>:  mov    rax,QWORD PTR fs:0x28
+   0x7ffff7db4d35 <__libc_start_call_main+37>:  mov    QWORD PTR [rsp+0x88],rax
+   0x7ffff7db4d3d <__libc_start_call_main+45>:  xor    eax,eax
+   0x7ffff7db4d3f <__libc_start_call_main+47>:  call   0x7ffff7dcd1e0 <_setjmp>
+   0x7ffff7db4d44 <__libc_start_call_main+52>:  endbr64
+   0x7ffff7db4d48 <__libc_start_call_main+56>:  test   eax,eax
+   0x7ffff7db4d4a <__libc_start_call_main+58>:  jne    0x7ffff7db4d97 <__libc_start_call_main+135>
+   0x7ffff7db4d4c <__libc_start_call_main+60>:  mov    rax,QWORD PTR fs:0x300
+   0x7ffff7db4d55 <__libc_start_call_main+69>:  mov    QWORD PTR [rsp+0x68],rax
+   0x7ffff7db4d5a <__libc_start_call_main+74>:  mov    rax,QWORD PTR fs:0x2f8
+   0x7ffff7db4d63 <__libc_start_call_main+83>:  mov    QWORD PTR [rsp+0x70],rax
+   0x7ffff7db4d68 <__libc_start_call_main+88>:  lea    rax,[rsp+0x20]
+   0x7ffff7db4d6d <__libc_start_call_main+93>:  mov    QWORD PTR fs:0x300,rax
+   0x7ffff7db4d76 <__libc_start_call_main+102>: mov    rax,QWORD PTR [rip+0x1ef23b]        # 0x7ffff7fa3fb8
+   0x7ffff7db4d7d <__libc_start_call_main+109>: mov    edi,DWORD PTR [rsp+0x14]
+   0x7ffff7db4d81 <__libc_start_call_main+113>: mov    rsi,QWORD PTR [rsp+0x18]
+   0x7ffff7db4d86 <__libc_start_call_main+118>: mov    rdx,QWORD PTR [rax]
+   0x7ffff7db4d89 <__libc_start_call_main+121>: mov    rax,QWORD PTR [rsp+0x8]
+   0x7ffff7db4d8e <__libc_start_call_main+126>: call   rax
+   0x7ffff7db4d90 <__libc_start_call_main+128>: mov    edi,eax
+   0x7ffff7db4d92 <__libc_start_call_main+130>: call   0x7ffff7dd05f0 <__GI_exit>
+   0x7ffff7db4d97 <__libc_start_call_main+135>: call   0x7ffff7e1c670 <__GI___nptl_deallocate_tsd>
+   0x7ffff7db4d9c <__libc_start_call_main+140>: lock dec DWORD PTR [rip+0x1ef505]        # 0x7ffff7fa42a8 <__nptl_nthreads>
+   0x7ffff7db4da3 <__libc_start_call_main+147>: sete   al
+   0x7ffff7db4da6 <__libc_start_call_main+150>: test   al,al
+   0x7ffff7db4da8 <__libc_start_call_main+152>: jne    0x7ffff7db4db8 <__libc_start_call_main+168>
+   0x7ffff7db4daa <__libc_start_call_main+154>: mov    edx,0x3c
+   0x7ffff7db4daf <__libc_start_call_main+159>: nop
+   0x7ffff7db4db0 <__libc_start_call_main+160>: xor    edi,edi
+   0x7ffff7db4db2 <__libc_start_call_main+162>: mov    eax,edx
+   0x7ffff7db4db4 <__libc_start_call_main+164>: syscall
+   0x7ffff7db4db6 <__libc_start_call_main+166>: jmp    0x7ffff7db4db0 <__libc_start_call_main+160>
+   0x7ffff7db4db8 <__libc_start_call_main+168>: xor    edi,edi
+   0x7ffff7db4dba <__libc_start_call_main+170>: jmp    0x7ffff7db4d92 <__libc_start_call_main+130>
+   0x7ffff7db4dbc:      nop    DWORD PTR [rax+0x0]
+   0x7ffff7db4dc0 <__libc_start_main_impl>:     endbr64
+   0x7ffff7db4dc4 <__libc_start_main_impl+4>:   push   r15
+   0x7ffff7db4dc6 <__libc_start_main_impl+6>:   mov    r15,rcx
+   0x7ffff7db4dc9 <__libc_start_main_impl+9>:   push   r14
+   0x7ffff7db4dcb <__libc_start_main_impl+11>:  push   r13
+   0x7ffff7db4dcd <__libc_start_main_impl+13>:  mov    r13,rdi
+   0x7ffff7db4dd0 <__libc_start_main_impl+16>:  push   r12
+   0x7ffff7db4dd2 <__libc_start_main_impl+18>:  mov    r12,rdx
+   0x7ffff7db4dd5 <__libc_start_main_impl+21>:  push   rbp
+   0x7ffff7db4dd6 <__libc_start_main_impl+22>:  mov    ebp,esi
+   0x7ffff7db4dd8 <__libc_start_main_impl+24>:  push   rbx
+   0x7ffff7db4dd9 <__libc_start_main_impl+25>:  sub    rsp,0x18
+   0x7ffff7db4ddd <__libc_start_main_impl+29>:  test   r9,r9
+   0x7ffff7db4de0 <__libc_start_main_impl+32>:  je     0x7ffff7db4dee <__libc_start_main_impl+46>
+   0x7ffff7db4de2 <__libc_start_main_impl+34>:  mov    rdi,r9
+   0x7ffff7db4de5 <__libc_start_main_impl+37>:  xor    edx,edx
+   0x7ffff7db4de7 <__libc_start_main_impl+39>:  xor    esi,esi
+   0x7ffff7db4de9 <__libc_start_main_impl+41>:  call   0x7ffff7dd08c0 <__GI___cxa_atexit>
+   0x7ffff7db4dee <__libc_start_main_impl+46>:  mov    rax,QWORD PTR [rip+0x1ef0d3]        # 0x7ffff7fa3ec8
+   0x7ffff7db4df5 <__libc_start_main_impl+53>:  mov    eax,DWORD PTR [rax]
+   0x7ffff7db4df7 <__libc_start_main_impl+55>:  mov    ebx,eax
+   0x7ffff7db4df9 <__libc_start_main_impl+57>:  mov    DWORD PTR [rsp],eax
+   0x7ffff7db4dfc <__libc_start_main_impl+60>:  and    ebx,0x2
+   0x7ffff7db4dff <__libc_start_main_impl+63>:  jne    0x7ffff7db4ee9 <__libc_start_main_impl+297>

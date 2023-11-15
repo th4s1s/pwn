@@ -1,0 +1,5 @@
+level3: dùng nmap với port để dò ip host rồi connect
+
+level4: y chang nhưng lâu vcl
+
+level5: dùng tcpdump thêm option -n -X để hiện content

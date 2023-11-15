@@ -1,0 +1,20 @@
+version: '2'
+services:
+  asocialnetwork:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /service/
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3000:80"
+    links:
+      - asocialnetwork-service-mongo
+    restart: unless-stopped
+  asocialnetwork-service-mongo:
+    container_name: asocialnetwork-service-mongo
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    restart: unless-stopped

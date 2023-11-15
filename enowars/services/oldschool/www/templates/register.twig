@@ -1,0 +1,23 @@
+{% extends 'templates/base.twig' %}
+
+{% block content %}
+	<div class="form-container">
+		<h1>Register</h1>
+		{% if message %}
+			<p class="message-error">{{ message }}</p>
+		{% endif %}
+		<form method="post" action="index.php?action=register">
+			<div class="input-field">
+				<label for="username">Username:</label>
+				<input type="text" name="username" id="username" required>
+			</div>
+			<div class="input-field">
+				<label for="password">Password:</label>
+				<input type="password" name="password" id="password" required>
+			</div>
+			<div class="input-field">
+				<input type="submit" class="submit-button" value="Register">
+			</div>
+		</form>
+	</div>
+{% endblock %}
