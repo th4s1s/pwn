@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/ctf/pwn/picoCTF/buffer_overflow_3",
-      "program": "d:/ctf/pwn/picoCTF/buffer_overflow_3/build/Debug/outDebug",
+      "cwd": "d:/ctf/pwn/picoctf/buffer_overflow_3",
+      "program": "d:/ctf/pwn/picoctf/buffer_overflow_3/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
